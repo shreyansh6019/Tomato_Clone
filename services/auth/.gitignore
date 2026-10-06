@@ -1,0 +1,8 @@
+# Ignore node modules inside any service
+node_modules/
+**/node_modules/
+
+# Ignore environment secret files completely
+.env
+auth/.env
+**/.env
