@@ -31,7 +31,6 @@ const isAuth = async (
       res.status(401).json({ message: "Invalid token" });
       return;
     }
-
     req.user = decoded.user as IUser;
     next();
   } catch (err) {
@@ -49,7 +48,6 @@ export const isSeller = async (
   next: NextFunction,
 ): Promise<void> => {
   const { user } = req;
-
   if(user && user.role !== "seller") {
     res.status(401).json({ message: "Unauthorized" });
     return 

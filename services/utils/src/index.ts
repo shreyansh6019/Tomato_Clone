@@ -4,6 +4,7 @@ import cors from "cors";
 import cloudinary from "cloudinary";
 
 import uploadRoutes from "./routes/cloudinary.js";
+dotenv.config();
 
 const { CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
 
@@ -17,7 +18,7 @@ cloudinary.v2.config({
   api_secret: CLOUD_API_SECRET,
 });
 
-dotenv.config();
+
 
 const app = express();
 app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));

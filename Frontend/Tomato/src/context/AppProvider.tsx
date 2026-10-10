@@ -3,6 +3,7 @@ import { authService } from "../main";
 import axios from "axios";
 import type { User, Location } from "../types";
 import { AppContext } from "./AppContext";
+import { Toaster } from "react-hot-toast";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -98,6 +99,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     return (
         <AppContext.Provider value={contextValue}>
             {children}
+            <Toaster />
         </AppContext.Provider>
     );
 };

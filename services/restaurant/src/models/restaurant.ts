@@ -48,7 +48,7 @@ const restaurantSchema = new Schema<IRestaurant>(
         },
         isVerified: {
             type: Boolean,
-            required: true,
+            default: false,
         },
         autoLocation: {
             type: {
@@ -70,15 +70,13 @@ const restaurantSchema = new Schema<IRestaurant>(
         },
         isOpen: {
             type: Boolean,
-            required: true,
+            default: false,
         },
         createdAt: {
             type: Date,
-            required: true,
         },
         updatedAt: {
             type: Date,
-            required: true,
         },
     },
     {
