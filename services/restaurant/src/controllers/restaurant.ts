@@ -127,7 +127,6 @@ export const fetchMyRestaurant = TryCatch(
     res.status(200).json({
       message: "Restaurants fetched successfully",
       restaurant,
-
     });
   },
 );
@@ -140,11 +139,15 @@ export const updateRestaurantStatus = TryCatch(
 
     const { status } = req.body;
     console.log(status, typeof status);
-    if(typeof status !== "boolean") {
+    if (typeof status !== "boolean") {
       return res.status(400).json({ message: "Status must be boolean" });
     }
 
-    const restaurant = await Restaurant.findOneAndUpdate({ ownerId: req.user._id }, { isOpen: status }, { new: true });
+    const restaurant = await Restaurant.findOneAndUpdate(
+      { ownerId: req.user._id },
+      { isOpen: status },
+      { new: true },
+    );
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
@@ -161,10 +164,7 @@ export const editRestaurant = TryCatch(
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    const {
-      name,
-      description,
-    } = req.body;
+    const { name, description } = req.body;
 
     if (!name || !description) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -184,6 +184,93 @@ export const editRestaurant = TryCatch(
     }
     res.status(200).json({
       message: "Restaurant updated successfully",
+      restaurant,
+    });
+  },
+);
+
+export const getNearbyRestaurants = TryCatch(
+  async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { latitude, longitude, radius = 5000, search = "" } = req.query;
+    const latitudeNumber =
+      typeof latitude === "string" ? Number(latitude) : NaN;
+    const longitudeNumber =
+      typeof longitude === "string" ? Number(longitude) : NaN;
+    const radiusNumber =
+      typeof radius === "string" ? Number(radius) : Number(radius) || 5000;
+
+    if (
+      !Number.isFinite(latitudeNumber) ||
+      !Number.isFinite(longitudeNumber) ||
+      !Number.isFinite(radiusNumber)
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Invalid latitude, longitude, or radius" });
+    }
+
+    const query: any = {
+      isVerified: true,
+    };
+
+    if (search && typeof search === "string") {
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    const restaurants = await Restaurant.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [longitudeNumber, latitudeNumber],
+          },
+          distanceField: "distance",
+          maxDistance: radiusNumber,
+          query: query,
+          spherical: true,
+        },
+      },
+      {
+        $sort: {
+          isOpen: -1,
+          distance: 1,
+        },
+      },
+      {
+        $addFields: {
+          distanceKm: { $round: [{ $divide: ["$distance", 1000] }, 2] },
+        },
+      },
+      { $limit: 10 },
+    ]);
+    if (!restaurants) {
+      return res.status(404).json({ message: "Restaurants not found" });
+    }
+    res.status(200).json({
+      message: "Restaurants fetched successfully",
+      count: restaurants.length,
+      restaurants,
+    });
+  },
+);
+
+export const fetcSingleRestaurant = TryCatch(
+  async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { id } = req.params;
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    res.status(200).json({
+      message: "Restaurant fetched successfully",
       restaurant,
     });
   },

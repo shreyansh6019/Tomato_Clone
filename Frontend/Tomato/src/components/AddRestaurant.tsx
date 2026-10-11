@@ -63,30 +63,25 @@ const AddRestaurant = ({ fetchMyRestaurant }: AddRestaurantProps) => {
                 <input type="text" placeholder="Name" className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm placeholder:text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1" value={name} onChange={(e) => setName(e.target.value)} />
                 <input type="number" placeholder="Phone" className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm placeholder:text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 <textarea placeholder="Description" className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm placeholder:text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1" value={description} onChange={(e) => setDescription(e.target.value)} />
-                {/* <label htmlFor="image" className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-300 p-4 text-sm text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1">
-                    <BiUpload className="h-5 w-5 text-[#E23774]" />
-                    {image ? image.name : "Upload image"}
-                    <input type="file" accept="image/*" hidden className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none" onChange={(e) => setImage(e.target.files?.[0] || null)} />
-                </label> */}
                 <div>
-  {/* The clickable UI box */}
-  <label 
-    htmlFor="image-upload" 
-    className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-300 p-4 text-sm text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1"
-  >
-    <BiUpload className="h-5 w-5 text-[#E23774]" />
-    {image ? image.name : "Upload image"}
-  </label>
+                    {/* The clickable UI box */}
+                    <label 
+                        htmlFor="image-upload" 
+                        className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-300 p-4 text-sm text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1"
+                    >
+                        <BiUpload className="h-5 w-5 text-[#E23774]" />
+                        {image ? image.name : "Upload image"}
+                    </label>
 
-  {/* The actual hidden input file element outside the label */}
-  <input 
-    id="image-upload" // Matches the htmlFor value above
-    type="file" 
-    accept="image/*" 
-    className="hidden" // Hides it cleanly without breaking functionality
-    onChange={(e) => setImage(e.target.files?.[0] || null)} 
-  />
-</div>
+                    {/* The actual hidden input file element outside the label */}
+                    <input 
+                        id="image-upload" // Matches the htmlFor value above
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" // Hides it cleanly without breaking functionality
+                        onChange={(e) => setImage(e.target.files?.[0] || null)} 
+                    />
+                </div>
 
                 <div className="flex items-center gap-3 rounded-lg border-gray-300 border p-4">
                     <BiMapPin className="mt-0.5 h-5 w-5 text-[#E23774]" />
