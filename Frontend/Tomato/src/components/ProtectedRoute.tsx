@@ -8,12 +8,9 @@ const ProtectedRoute = () => {
     if (loading) {
         return null;
     }
-
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
-
-    console.log("User role:", user?.role, "Current path:", location.pathname);
 
     if (user?.role === "user" && location.pathname !== "/select-role") {
         return <Navigate to="/select-role" state={{ from: location }} replace />;
@@ -22,6 +19,8 @@ const ProtectedRoute = () => {
     if (user?.role !== "user" && location.pathname === "/select-role") {
         return <Navigate to="/" state={{ from: location }} replace />;
     }
+
+
 
     return <Outlet />;
 };

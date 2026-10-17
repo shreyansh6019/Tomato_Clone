@@ -47,7 +47,7 @@ const Restaurant = () => {
             setRestaurant(data.restaurant || null);
             if (data.token) {
                 localStorage.setItem("token", data.token);
-                window.location.reload();
+                // window.location.reload();
             }
         }
         catch (error) {
@@ -74,6 +74,7 @@ const Restaurant = () => {
     if (!restaurant) {
         return <AddRestaurant fetchMyRestaurant={fetchRestaurant} />
     }
+    console.log("processing restaurant");
     return (
         <div className="flexmin-h-screen items-center justify-center bg-gray-50 px-4 py-6 space-y-6">
             <RestaurantProfile restaurant={restaurant} isSeller={true} onUpdate={setRestaurant} />

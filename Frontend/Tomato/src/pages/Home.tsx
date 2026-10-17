@@ -59,11 +59,15 @@ const Home = () => {
 
   useEffect(() => {
     void Promise.resolve().then(fetchRestaurants);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, search]);
+
+  console.log("processing restaurants", restaurants, location, loading);
 
   if (loading || !location) {
     return <div className="flex min-h-screen h-[60vh] items-center justify-center text-gray-500">Finding restaurants near you...</div>
   }
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
       {
@@ -71,7 +75,7 @@ const Home = () => {
           {restaurants.map((restaurant) => {
             const [ resLongitude, resLatitude ] = restaurant.autoLocation.coordinates;
             const distance = getDistanceInKm(location.latitude, location.longitude, resLatitude, resLongitude);
-            return <RestaurantCard key={restaurant._id} restaurant={restaurant} distance={distance} />
+            return <RestaurantCard id={restaurant._id} restaurant={restaurant} distance={distance} />
           })}
         </div> : <p className="text-center text-lg font-semibold text-gray-500">No restaurants found</p>
       }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { IMenuItem } from '../types';
 import { FiEyeOff } from 'react-icons/fi';
-import { BsCart, BsEye } from 'react-icons/bs';
+import { BsCartPlus, BsEye } from 'react-icons/bs';
 import { BiLoader, BiTrash } from 'react-icons/bi';
 import axios from 'axios';
 import { restaurantService } from '../main';
@@ -101,7 +101,7 @@ const MenuItem = ({
                     !isSeller &&
                     <button disabled={!item.isAvailable || isLoading} onClick={() => { }}
                       className={`flex items-center justify-center p-2 rounded-lg ${!item.isAvailable || isLoading ? "text-gray-400 cursor-not-allowed" : "bg-red-500 hover:bg-red-50"}`}>
-                      {isLoading ? <BiLoader size={18} className="animate-spin" /> : <BsCart size={18} />}
+                      {isLoading ? <BiLoader size={18} className="animate-spin" /> : <BsCartPlus size={18} />}
                     </button>
                   }
                 </div>

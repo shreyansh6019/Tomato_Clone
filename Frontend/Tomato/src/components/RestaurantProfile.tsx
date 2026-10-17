@@ -77,7 +77,6 @@ const RestaurantProfile = ({
             {restaurant?.image && <img src={restaurant.image} alt="Restaurant Image" className="w-full h-48 object-cover" />}
             <div className="p-5 space-y-4">
                 {
-                    isSeller &&
                     <div className="flex items-start justify-between">
                         <div>
                             {
@@ -90,12 +89,12 @@ const RestaurantProfile = ({
                                 <p>{restaurant?.autoLocation.formattedAddress || "Location Unavailable"}</p>
                             </div>
                         </div>
-                        <button onClick={() => setEditMode(!editMode)} className="px-4 py-2 text-gray-600">
+                        {isSeller &&<button onClick={() => setEditMode(!editMode)} className="px-4 py-2 text-gray-600">
                             <BiEdit size={18} />
-                        </button>
+                        </button>}
                     </div>
                 }
-
+                
                 {
                     editMode ? (
                         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" className="w-full rounded border border-gray-300 px-3 py-2 text-sm font-normal placeholder:text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E23774] focus:ring-offset-1" />

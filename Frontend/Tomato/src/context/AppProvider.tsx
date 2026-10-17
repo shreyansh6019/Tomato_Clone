@@ -32,6 +32,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response.data, "here");
             setUser(response.data.user);
             setIsAuthenticated(true);
         } catch (error) {
@@ -52,18 +53,24 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
         navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
+            const cachedCity = sessionStorage.getItem("cached_city");
+            if (cachedCity) {
+                setCity(cachedCity);
+                return;
+            }
             setLoadingLocation(true);
 
             try {
                 const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
                 const data = await response.json();
-
+                const detectedCity = data.address.city || data.address.town || data.address.village || "Your Location";
                 setLocation({
                     latitude,
                     longitude,
                     formattedAddress: data.display_name || "Current Location"
                 });
-                setCity(data.address.city || data.address.town || data.address.village || "Your Location");
+                setCity(detectedCity);
+                sessionStorage.setItem("cached_city", detectedCity);
             } catch {
                 setLocation({
                     latitude,
